@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D 世界漫游系统</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+<div id="app">
+    <!-- 左侧面板 -->
+    <div id="sidebar">
+        <div id="sidebar-header">
+            <span>🗺️ 列表</span>
+            <!--            <button id="btn-toggle-sidebar" title="隐藏面板">◀</button>-->
+        </div>
+        <button id="btn-new-map" class="btn btn-primary">＋ 增</button>
+        <button id="btn-edit-map" class="btn btn-primary">✎ 改</button>
+        <div id="map-list"></div>
+    </div>
+    <!-- 右侧主区域 -->
+    <div id="main">
+        <div id="viewer-container"></div>
+        <div id="blocker"><p>🔐 点击锁定鼠标</p></div>
+        <div id="hint">WASD 移动 | 鼠标环顾 | 空格跳跃 | R 录制 T 停止 Y 回放 U 自走 I 动态物品</div>
+        <div id="minimap-container">
+            <canvas id="minimap" width="180" height="180"></canvas>
+        </div>
+        <div id="controls-panel">
+            <button class="ctrl-btn" id="btn-record">⏺</button>
+            <button class="ctrl-btn" id="btn-stop">⏹</button>
+            <button class="ctrl-btn" id="btn-play">▶</button>
+            <span id="status-text" style="color:white; line-height:40px;">就绪</span>
+        </div>
+    </div>
+    <!-- 编辑器蒙层 -->
+    <div id="editor-overlay">
+        <div id="editor-panel">
+            <h3>地图编辑器</h3>
+            <div style="display:flex; gap:10px;">
+                <label>网格大小：<input id="grid-size" type="number" value="30" min="10" max="50"></label>
+                <label>地图名称：<input id="map-name" type="text" value="新地图"></label>
+            </div>
+            <div id="editor-grid">
+                <div id="canvas-container">
+                    <canvas id="editor-canvas" width="600" height="600"></canvas>
+                </div>
+                <div id="editor-controls" style="display:flex;flex-direction:column;gap:10px;width:auto;">
+                    <button id="btn-save-map" class="btn btn-primary">保存</button>
+                    <button id="btn-save-as" class="btn" style="background:#3a5a3a; color:white;">另存为</button>
+                    <button id="btn-cancel-editor" class="btn" style="background:#555;">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script type="module" src="./js/main.js"></script>
+
+</body>
+</html>

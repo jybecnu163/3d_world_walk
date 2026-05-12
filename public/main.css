@@ -1,0 +1,255 @@
+body {
+    margin: 0;
+    font-family: 'Microsoft YaHei', sans-serif;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    height: 100vh;
+}
+
+#sidebar {
+    width: 180px; /* 固定宽度为 180 像素 */
+    background: #1e1e2f; /* 背景色：深灰蓝/深紫灰色（暗色主题常用） */
+    color: white; /* 内部文字颜色为白色 */
+    display: flex; /* 启用 Flexbox 布局（便于子项排列） */
+    flex-direction: column; /* 子元素沿垂直方向（列）排列，从上到下 */
+    transition: margin-left 0.3s; /* 当 margin-left 属性变化时，执行 0.3 秒的过渡动画（常见于侧边栏折叠/展开效果） */
+    z-index: 20; /* 层叠优先级为 20，确保侧边栏浮在其他普通元素之上（数值越大越靠上） */
+}
+
+#sidebar.hidden {
+    margin-left: -180px;
+}
+
+#sidebar-header {
+    padding: 15px; /* 内边距：上下左右各 15 像素，内容与边框保持距离 */
+    display: flex; /* 启用 Flexbox 弹性布局，子元素沿水平主轴排列 */
+    justify-content: space-between; /* 主轴（水平）分布：子项目两端对齐，中间均匀留空 */
+    align-items: center; /* 交叉轴（垂直）对齐：子项目在垂直方向上居中对齐 */
+    background: #2a2a3e; /* 背景色：深灰紫色（比侧边栏主体 #1e1e2f 稍亮，形成层次感） */
+}
+
+#btn-toggle-sidebar {
+    background: none; /* 背景透明（无背景色） */
+    border: none; /* 移除边框 */
+    color: white; /* 文字/图标颜色为白色 */
+    font-size: 20px; /* 字体大小 20px（也适用于图标字体或 Unicode 符号） */
+    cursor: pointer; /* 鼠标悬停时变为手型指针，提示可点击 */
+}
+
+.btn-new-map {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-edit-map {
+    padding: 8px 16px; /* 内边距：上下 8px，左右 16px，控制内容与边框的距离 */
+    border: none; /* 移除边框（无边框） */
+    border-radius: 6px; /* 圆角半径 6px，使按钮四角变圆 */
+    cursor: pointer; /* 鼠标悬停时变成手型指针，提示可点击 */
+    font-size: 14px; /* 文字大小 14px */
+}
+
+.btn-primary {
+    margin: 0 10px 10px; /* 外边距：上 0，左右 10px，下 10px（注意简写顺序：上 左右 下） */
+    background: #3a3a5a; /* 背景色：深灰蓝（十六进制色值） */
+    color: white; /* 文字颜色：白色 */
+}
+
+.btn-primary:hover {
+    background: #5f8ac0;
+}
+
+#map-list {
+    flex: 1;
+    overflow-y: auto; /* 允许竖向滚动 */
+    overflow-x: hidden; /* 隐藏横向滚动条，同时禁止横向滚动 */
+    padding: 10px; /* 内边距：上下 8px，左右 16px，控制内容与边框的距离 */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.map-card {
+    background: #2a2a3e;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-card:hover {
+    background: #3a3a5a;
+}
+
+.map-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    background: #444;
+    object-fit: cover;
+}
+
+.map-card .name {
+    flex: 1;
+    min-width: 3em; /* 至少显示三个汉字的宽度 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#main {
+    flex: 1;
+    position: relative;
+}
+
+#viewer-container {
+    width: 100%;
+    height: 100%;
+}
+
+#blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 10;
+    cursor: pointer;
+}
+
+#hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+#minimap-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 180px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    overflow: hidden;
+    z-index: 20;
+}
+
+#minimap {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#controls-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 30;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 15px;
+    border-radius: 30px;
+}
+
+.ctrl-btn {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#editor-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#editor-panel {
+    background: #1e1e2f;
+    border-radius: 12px;
+    padding: 20px;
+    width: 90%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: white;
+}
+
+#editor-grid {
+    display: flex;
+    gap: 20px;
+}
+
+#canvas-container {
+    border: 2px solid #555;
+    position: relative;
+}
+
+#editor-canvas {
+    display: block;
+    background: #111;
+    cursor: crosshair;
+}
+
+#editor-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+}
+
+.tool-btn {
+    padding: 8px;
+    background: #2a2a4e;
+    border: 1px solid #666;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.tool-btn.active {
+    background: #4a6fa5;
+    border-color: white;
+}
+
+.color-input {
+    width: 40px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+}
